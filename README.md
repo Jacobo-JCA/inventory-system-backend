@@ -15,3 +15,4 @@ Sistema modular para gestión de inventario, ventas y catálogo de productos imp
 ## Diagrama de Arquitectura
 
 ### Contextos del Sistema
+![Image](https://github.com/user-attachments/assets/eefd6527-159f-4a03-9dbb-f8d286f2cd28)
