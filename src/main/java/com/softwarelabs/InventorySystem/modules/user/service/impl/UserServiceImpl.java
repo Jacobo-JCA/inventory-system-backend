@@ -9,7 +9,6 @@ import com.softwarelabs.InventorySystem.modules.user.repo.UserRepo;
 import com.softwarelabs.InventorySystem.modules.user.service.RoleService;
 import com.softwarelabs.InventorySystem.modules.user.service.UserRoleService;
 import com.softwarelabs.InventorySystem.modules.user.service.UserService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
@@ -32,9 +31,6 @@ public class UserServiceImpl implements UserService {
             throw new EmailAlreadyExistsException("Email already exist!");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        Role role = roleService.assignRole();
-//        UserRole userRole = userRoleService.createUserRole(savedUser, role);
-        //repo.save(user); debo verificar si el cascade sirve para quehibernate lo persista
         return repo.save(user);
     }
 

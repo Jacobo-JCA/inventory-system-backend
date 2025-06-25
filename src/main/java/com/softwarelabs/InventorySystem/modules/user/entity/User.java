@@ -11,7 +11,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Builder
 @Entity
 @Table(name = "users")
 public class User {
@@ -37,17 +36,5 @@ public class User {
         }
         this.authorities.add(authority);
         authority.setUser(this);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + idUser +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", createdAt=" + createdAt +
-                '}';
     }
 }

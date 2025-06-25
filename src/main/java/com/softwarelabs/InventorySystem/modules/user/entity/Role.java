@@ -32,12 +32,4 @@ public class Role {
         this.authorities.add(authority);
         authority.setRole(this);
     }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "idRole=" + idRole +
-                ", roleName='" + roleName + '\'' +
-                '}';
-    }
 }
