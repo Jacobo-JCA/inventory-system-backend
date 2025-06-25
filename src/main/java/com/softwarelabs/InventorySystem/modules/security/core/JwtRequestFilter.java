@@ -28,9 +28,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private Optional<String> extractHeaderToken(HttpServletRequest request) {
         return Optional.ofNullable(request.getHeader("Authorization"))
                 .filter(header -> header.length() > 7)
-                .map(String::toLowerCase)
-                .filter(header -> header.startsWith("bearer "))
-                .map(header -> header.substring(7));
+                .filter(header -> header.substring(0, 7).equalsIgnoreCase("Bearer "))
+                .map(header -> header.substring(7).trim());
     }
 
     private void authenticationUser(UserDetails userDetails, HttpServletRequest request) {

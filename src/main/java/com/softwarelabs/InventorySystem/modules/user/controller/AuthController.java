@@ -2,7 +2,7 @@ package com.softwarelabs.InventorySystem.modules.user.controller;
 
 import com.softwarelabs.InventorySystem.modules.security.core.JwtRequest;
 import com.softwarelabs.InventorySystem.modules.security.core.JwtResponse;
-import com.softwarelabs.InventorySystem.modules.user.service.UserService;
+import com.softwarelabs.InventorySystem.modules.user.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,15 +16,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 @RestController
 public class AuthController {
-    private final UserService service;
-
-    @PostMapping("/register")
-    public ResponseEntity<JwtResponse> registerUser(@RequestBody @Valid JwtRequest registerRequest) {
-        return ResponseEntity.ok(service.registerUser(registerRequest));
-    }
+    private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtResponse> loginUser(@RequestBody @Valid JwtRequest jwtRequest) throws Exception {
-        return ResponseEntity.ok(service.loginUser(jwtRequest));
+    public ResponseEntity<JwtResponse> loginUser(@RequestBody @Valid JwtRequest req) throws Exception {
+        authService.authenticate(req.getEmail(), req.getPassword());
+        String token = authService.getToken(req);
+        return ResponseEntity.ok(new JwtResponse(token));
     }
 }

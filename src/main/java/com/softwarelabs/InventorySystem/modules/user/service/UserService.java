@@ -1,13 +1,13 @@
 package com.softwarelabs.InventorySystem.modules.user.service;
 
-import com.softwarelabs.InventorySystem.modules.security.core.JwtRequest;
-import com.softwarelabs.InventorySystem.modules.security.core.JwtResponse;
 import com.softwarelabs.InventorySystem.modules.user.entity.User;
 
+import java.util.List;
+
 public interface UserService {
-    User registerUser(User registerRequest) throws Exception;
-    JwtResponse loginUser(JwtRequest loginRequest) throws Exception;
-    User getAllUsers() throws Exception;
-    User updateUser(Long id, User user) throws Exception;
+    User create(User user) throws Exception;
+    List<User> getAllUsers() throws Exception;
+    User update(Long id, User user) throws Exception;
     void deleteUser(Long id) throws Exception;
+    User getUser(Long userId) throws Exception;
 }

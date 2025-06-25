@@ -33,7 +33,7 @@ public class ProductServiceImpl extends CRUDImpl<Product, Long> implements Produ
         Product productSave = Product.builder()
                 .name(product.getName())
                 .code(product.getCode())
-                .price(product.getPrice())
+                .unitPrice(product.getUnitPrice())
                 .stockQuantity(product.getStockQuantity())
                 .description(product.getDescription())
                 .category(category)

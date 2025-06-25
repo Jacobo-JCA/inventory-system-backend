@@ -1,10 +1,10 @@
 package com.softwarelabs.InventorySystem.modules.user.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -12,8 +12,8 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
-@Table(name = "users")
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @EqualsAndHashCode.Include
@@ -21,16 +21,23 @@ public class User {
     private Long idUser;
     @Column(nullable = false, length = 50, unique = true)
     private String username;
-    @NotBlank(message = "Email is required")
-    @Column(unique = true)
+    @Column(nullable = false, length = 50, unique = true)
     private String email;
-    @NotBlank(message = "Password is required")
+    @Column(nullable = false, length = 60)
     private String password;
-    @NotBlank(message = "Phone Number is required")
+    @Column(nullable = false, length = 10)
     private String phoneNumber;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<UserRole> authorities;
     private final LocalDateTime createdAt = LocalDateTime.now();
+
+    public void addAuthority(UserRole authority) {
+        if (this.authorities == null) {
+            this.authorities = new HashSet<>();
+        }
+        this.authorities.add(authority);
+        authority.setUser(this);
+    }
 
     @Override
     public String toString() {

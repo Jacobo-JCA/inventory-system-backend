@@ -3,7 +3,7 @@ package com.softwarelabs.InventorySystem.modules.catalog.controller;
 import com.softwarelabs.InventorySystem.modules.catalog.dto.CategoryDTO;
 import com.softwarelabs.InventorySystem.modules.catalog.entity.Category;
 import com.softwarelabs.InventorySystem.modules.catalog.service.CategoryService;
-import com.softwarelabs.InventorySystem.modules.catalog.transformer.GenericMapper;
+import com.softwarelabs.InventorySystem.modules.catalog.common.mapper.GenericMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

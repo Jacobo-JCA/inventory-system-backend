@@ -1,6 +1,6 @@
 package com.softwarelabs.InventorySystem.modules.billing.common.crud;
 
-import com.softwarelabs.InventorySystem.exception.NotFoundException;
+import com.softwarelabs.InventorySystem.modules.billing.exception.NotFoundException;
 import com.softwarelabs.InventorySystem.modules.catalog.common.repo.GenericRepo;
 
 import java.util.List;

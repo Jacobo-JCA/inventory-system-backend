@@ -2,7 +2,6 @@ package com.softwarelabs.InventorySystem.modules.security.core;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ public class JwtUtils implements Serializable {
     private String secreteJwtString;
 
     private Key getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secreteJwtString);
+        byte[] keyBytes = this.secreteJwtString.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -44,7 +44,7 @@ public class JwtUtils implements Serializable {
         claims.put("role", userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(", ")));
-        claims.put("test", "value-test");
+        //claims.put("test", "value-test");
         return generateToken(claims, userDetails.getUsername());
     }
 

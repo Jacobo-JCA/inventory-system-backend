@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ModelMapperConfig {
-    @Bean
-    public ModelMapper mapper() {
+public class CatalogMapperConfig {
+    @Bean("catalog")
+    public ModelMapper mapperCatalog() {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration()
                 .setFieldMatchingEnabled(true)

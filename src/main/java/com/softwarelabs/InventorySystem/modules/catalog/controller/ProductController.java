@@ -4,7 +4,7 @@ import com.softwarelabs.InventorySystem.modules.catalog.dto.ProductRequestDTO;
 import com.softwarelabs.InventorySystem.modules.catalog.dto.ProductResponseDTO;
 import com.softwarelabs.InventorySystem.modules.catalog.entity.Product;
 import com.softwarelabs.InventorySystem.modules.catalog.service.ProductService;
-import com.softwarelabs.InventorySystem.modules.catalog.transformer.GenericMapper;
+import com.softwarelabs.InventorySystem.modules.catalog.common.mapper.GenericMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

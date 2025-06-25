@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = {"id_user", "id_role"})})
 @Entity
+@Table(name = "user_roles", uniqueConstraints = { @UniqueConstraint(columnNames = {"id_user", "id_role"})})
 public class UserRole {
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCourseRole;
+    private Long idUserRole;
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
     private User user;

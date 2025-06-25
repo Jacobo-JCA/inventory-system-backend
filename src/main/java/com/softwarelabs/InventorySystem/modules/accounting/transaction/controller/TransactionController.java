@@ -1,9 +1,9 @@
 package com.softwarelabs.InventorySystem.modules.accounting.transaction.controller;
 
+import com.softwarelabs.InventorySystem.modules.accounting.transaction.dto.TransactionDTO;
 import com.softwarelabs.InventorySystem.modules.accounting.transaction.dto.TransactionRequest;
 import com.softwarelabs.InventorySystem.modules.accounting.transaction.enums.TransactionStatus;
 import com.softwarelabs.InventorySystem.modules.accounting.transaction.service.TransactionService;
-import com.softwarelabs.InventorySystem.modules.user.dto.ResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,22 +16,22 @@ public class TransactionController {
     private final TransactionService service;
 
     @PostMapping("/purchase")
-    public ResponseEntity<ResponseDTO> restockInventory(@RequestBody @Valid TransactionRequest transactionRequest) {
+    public ResponseEntity<TransactionDTO> restockInventory(@RequestBody @Valid TransactionRequest transactionRequest) {
         return ResponseEntity.ok(service.restockInventory(transactionRequest));
     }
 
     @PostMapping("/sell")
-    public ResponseEntity<ResponseDTO> sell(@RequestBody @Valid TransactionRequest transactionRequest) {
+    public ResponseEntity<TransactionDTO> sell(@RequestBody @Valid TransactionRequest transactionRequest) {
         return ResponseEntity.ok(service.sell(transactionRequest));
     }
 
     @PostMapping("/return")
-    public ResponseEntity<ResponseDTO> returnToSupplier(@RequestBody @Valid TransactionRequest transactionRequest) {
+    public ResponseEntity<TransactionDTO> returnToSupplier(@RequestBody @Valid TransactionRequest transactionRequest) {
         return ResponseEntity.ok(service.returnSupplier(transactionRequest));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ResponseDTO> getAllTransactions(
+    public ResponseEntity<TransactionDTO> getAllTransactions(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "1000") int size,
             @RequestParam(required = false) String searchText
@@ -40,12 +40,12 @@ public class TransactionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO> getTransactionById(@PathVariable Long id) {
+    public ResponseEntity<TransactionDTO> getTransactionById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getTransactionById(id));
     }
 
     @GetMapping("/by-month-year")
-    public ResponseEntity<ResponseDTO> getAllTransactionByMonthAndYear(
+    public ResponseEntity<TransactionDTO> getAllTransactionByMonthAndYear(
             @RequestParam int month,
             @RequestParam int year
     ) {
@@ -53,7 +53,7 @@ public class TransactionController {
     }
 
     @PutMapping("/update/{transactionId}")
-    public ResponseEntity<ResponseDTO> updateTransactionStatus(
+    public ResponseEntity<TransactionDTO> updateTransactionStatus(
             @PathVariable Long transactionId,
             @RequestBody @Valid TransactionStatus status) {
         System.out.println("ID IS: " + transactionId);
