@@ -34,6 +34,16 @@ public class UserGlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<CustomerErrorResponse> handleEmailAlreadyExistsException(NotFoundException ex, WebRequest req) {
+        CustomerErrorResponse response = CustomerErrorResponse.builder()
+                .datetime(LocalDateTime.now())
+                .message(ex.getMessage())
+                .path(req.getDescription(false))
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(InvalidCredentialException.class)
     public ResponseEntity<CustomerErrorResponse> handleInvalidCredentialExceptions(InvalidCredentialException ex, WebRequest req) {
         CustomerErrorResponse response = CustomerErrorResponse.builder()
