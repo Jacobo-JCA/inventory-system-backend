@@ -3,15 +3,14 @@ package com.softwarelabs.InventorySystem.modules.security.core;
 import com.softwarelabs.InventorySystem.modules.user.entity.Role;
 import com.softwarelabs.InventorySystem.modules.user.entity.User;
 import com.softwarelabs.InventorySystem.modules.user.entity.UserRole;
+import com.softwarelabs.InventorySystem.modules.user.exception.EmailException;
 import com.softwarelabs.InventorySystem.modules.user.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,8 +33,8 @@ public class JwtUserDetailService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = repo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User Email Not Found"));
+    public UserDetails loadUserByUsername(String email) throws EmailException {
+        User user = repo.findByEmail(email).orElseThrow(() -> new EmailException("Not Found Email"));
         return buildUserDetails(user);
     }
 }

@@ -1,18 +1,17 @@
 package com.softwarelabs.InventorySystem.modules.user.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -22,6 +21,7 @@ public class Role {
     private Long idRole;
     @Column(nullable = false, length = 50)
     private String roleName;
+    @ToString.Exclude
     @OneToMany(mappedBy = "role")
     private Set<UserRole> authorities;
 

@@ -1,31 +1,30 @@
 package com.softwarelabs.InventorySystem.modules.security.core;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class JwtUtils implements Serializable {
     @Value("${secreteJwtString}")
-    private String secreteJwtString;
+    private String secret;
 
     private Key getSigningKey() {
-        byte[] keyBytes = this.secreteJwtString.getBytes(StandardCharsets.UTF_8);
-        return Keys.hmacShaKeyFor(keyBytes);
+        String base64Secret = secret.replace('-', '+').replace('_', '/');
+        byte[] keyBytes = Base64.getDecoder().decode(base64Secret);
+        return new SecretKeySpec(keyBytes, "HmacSHA512");
     }
 
     public String generateToken(Map<String, Object> claims, String email) {

@@ -31,8 +31,8 @@ public class AuthServiceImpl implements AuthService  {
     }
 
     @Override
-    public String getToken(JwtRequest req) throws Exception {
-        final UserDetails userDetails = userDetailService.loadUserByUsername(req.getEmail());
+    public String generateToken(String email) throws Exception {
+        final UserDetails userDetails = userDetailService.loadUserByUsername(email);
         return jwtTokenUtil.generatePayloadToken(userDetails);
     }
 }

@@ -5,7 +5,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,11 +24,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
     private final JwtUserDetailService jwtUserDetailService;
 
-    private Optional<String> extractHeaderToken(HttpServletRequest request) {
+    private Optional<String> extractBearerToken(HttpServletRequest request) {
         return Optional.ofNullable(request.getHeader("Authorization"))
-                .filter(header -> header.length() > 7)
-                .filter(header -> header.substring(0, 7).equalsIgnoreCase("Bearer "))
-                .map(header -> header.substring(7).trim());
+                .filter(header -> header.startsWith("Bearer ") || header.startsWith("bearer "))
+                .map(header -> header.substring(7));
     }
 
     private void authenticationUser(UserDetails userDetails, HttpServletRequest request) {
@@ -40,27 +38,29 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         log.debug("Authentication: {}", userDetails.getUsername());
     }
 
-    private void authenticateUser(String email, String token, HttpServletRequest request) {
-        UserDetails userDetails = jwtUserDetailService.loadUserByUsername(email);
-        if(jwtUtils.isTokenValid(token, userDetails)) {
-            authenticationUser(userDetails, request);
-        }
+    private void validateToken(String email, String token, HttpServletRequest request) {
+        Optional.ofNullable(email)
+                .ifPresent(e -> {
+                    UserDetails userDetails = jwtUserDetailService.loadUserByUsername(email);
+                    if(jwtUtils.isTokenValid(token, userDetails)) {
+                        authenticationUser(userDetails, request);
+                    }
+                });
     }
 
-    private void validateToken(String token, HttpServletRequest request) {
+    private void extractEmail(String token, HttpServletRequest request) {
         try {
             String email = jwtUtils.getUsernameFromToken(token);
-            authenticateUser(email, token, request);
+            validateToken(email, token, request);
         } catch (JwtException e) {
             request.setAttribute("exception", e.getMessage());
         }
     }
 
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
-                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
-        extractHeaderToken(request).ifPresent(token -> {
-            validateToken(token, request);
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        extractBearerToken(request).ifPresent(token -> {
+            extractEmail(token, request);
         });
         filterChain.doFilter(request, response);
     }

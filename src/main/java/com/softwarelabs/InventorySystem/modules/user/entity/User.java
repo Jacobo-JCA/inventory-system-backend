@@ -9,8 +9,10 @@ import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 @Entity
 @Table(name = "users")
 public class User {
@@ -26,6 +28,7 @@ public class User {
     private String password;
     @Column(nullable = false, length = 10)
     private String phoneNumber;
+    @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<UserRole> authorities;
     private final LocalDateTime createdAt = LocalDateTime.now();

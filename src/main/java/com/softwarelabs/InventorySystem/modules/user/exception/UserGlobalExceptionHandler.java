@@ -34,7 +34,7 @@ public class UserGlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(EmailAlreadyExistsException.class)
+    @ExceptionHandler(EmailException.class)
     public ResponseEntity<CustomerErrorResponse> handleEmailAlreadyExistsException(NotFoundException ex, WebRequest req) {
         CustomerErrorResponse response = CustomerErrorResponse.builder()
                 .datetime(LocalDateTime.now())
