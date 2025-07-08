@@ -29,6 +29,7 @@ public class RoleController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<List<RoleDTO>> getAllRoles() throws Exception {
        List<RoleDTO> roles = roleService.getAllRoles().stream()
