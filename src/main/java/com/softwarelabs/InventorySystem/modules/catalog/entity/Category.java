@@ -8,25 +8,23 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 @Builder
 @Entity
 @Table(name = "categories")
 public class Category {
     @Id
+    @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCategory;
     @NotBlank(message = "Name is required")
-    @Column(unique = true)
+    @Column(name = "name", unique = true)
     private String name;
+    @ToString.Exclude
+    @Column(name = "products")
     @OneToMany(mappedBy = "category")
     private List<Product> products;
-
-    @Override
-    public String toString() {
-        return "Category{" +
-                "idCategory=" + idCategory +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }

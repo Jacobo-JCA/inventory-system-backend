@@ -1,27 +1,22 @@
 package com.softwarelabs.InventorySystem.modules.catalog.dto;
 
-import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
-public class ProductRequestDTO {
-    @NotNull(message = "Category is required")
+public class ProductResponse {
+    private Long idProduct;
     private Long idCategory;
-    @NotBlank(message = "Name is required")
-    @Size(min = 3, max = 50)
     private String name;
-    @NotBlank(message = "Code is required")
-    @Pattern(regexp = "^[A-Z0-9-]{5,20}$")
     private String code;
-    @DecimalMin(value = "0.0", inclusive = false)
     private BigDecimal unitPrice;
     private Integer stockQuantity;
-    @Size(min = 3, max = 100)
     private String description;
+    private LocalDateTime createdAt;
 }

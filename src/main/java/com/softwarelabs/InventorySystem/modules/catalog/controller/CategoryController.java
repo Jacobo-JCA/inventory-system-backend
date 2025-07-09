@@ -1,9 +1,10 @@
 package com.softwarelabs.InventorySystem.modules.catalog.controller;
 
-import com.softwarelabs.InventorySystem.modules.catalog.dto.CategoryDTO;
+import com.softwarelabs.InventorySystem.modules.catalog.dto.CategoryRequestDTO;
+import com.softwarelabs.InventorySystem.modules.catalog.dto.CategoryResponse;
 import com.softwarelabs.InventorySystem.modules.catalog.entity.Category;
 import com.softwarelabs.InventorySystem.modules.catalog.service.CategoryService;
-import com.softwarelabs.InventorySystem.modules.catalog.common.mapper.GenericMapper;
+import com.softwarelabs.InventorySystem.modules.catalog.common.mapper.CategoryMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,37 +20,39 @@ import java.util.List;
 public class CategoryController {
     private final CategoryService service;
 
-    @PreAuthorize("hasAuthority('MANAGER')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('INVENTORY')")
     @PostMapping("/add")
-    public ResponseEntity<CategoryDTO> createCategory(@RequestBody @Valid CategoryDTO categoryDTO) throws Exception {
-        Category category = service.save(GenericMapper.convertToEntity(categoryDTO, Category.class));
-        return new ResponseEntity<>(GenericMapper.convertToDto(category, CategoryDTO.class), HttpStatus.CREATED);
+    public ResponseEntity<CategoryResponse> createCategory(@RequestBody @Valid CategoryRequestDTO categoryDTO) throws Exception {
+        Category category = service.save(CategoryMapper.convertToEntity(categoryDTO));
+        return new ResponseEntity<>(CategoryMapper.convertToDto(category), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('INVENTORY')")
     @GetMapping(path = "/all")
-    public ResponseEntity<List<CategoryDTO>> getAllCategories() throws Exception {
-        List<CategoryDTO> categoryDTOs = service.readAll().stream()
-                .map(e -> GenericMapper.convertToEntity(e, CategoryDTO.class))
+    public ResponseEntity<List<CategoryResponse>> getAllCategories() throws Exception {
+        List<CategoryResponse> categoryDTOs = service.readAll().stream()
+                .map(CategoryMapper::convertToDto)
                 .toList();
         return new ResponseEntity<>(categoryDTOs, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('INVENTORY')")
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long id) throws Exception {
-        CategoryDTO categoryDTO = GenericMapper.convertToDto(service.readById(id), CategoryDTO.class);
-        return new ResponseEntity<>(categoryDTO, HttpStatus.OK);
+    public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable Long id) throws Exception {
+        CategoryResponse categoryResponse = CategoryMapper.convertToDto(service.readById(id));
+        return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('MANAGER')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('INVENTORY')")
     @PutMapping("/update/{id}")
-    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO)
+    public ResponseEntity<CategoryResponse> updateCategory(@PathVariable Long id, @RequestBody CategoryRequestDTO categoryDTO)
             throws Exception {
-        Category category = service.update(GenericMapper.convertToEntity(categoryDTO, Category.class), id);
-        return new ResponseEntity<>(GenericMapper.convertToDto(category, CategoryDTO.class),
+        Category category = service.update(CategoryMapper.convertToEntity(categoryDTO), id);
+        return new ResponseEntity<>(CategoryMapper.convertToDto(category),
                 HttpStatus.ACCEPTED);
     }
 
-    @PreAuthorize("hasAuthority('MANAGER')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('INVENTORY')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) throws Exception {
         service.delete(id);

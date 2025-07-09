@@ -1,4 +1,4 @@
-package com.softwarelabs.InventorySystem.modules.catalog.common.repo;
+package com.softwarelabs.InventorySystem.modules.catalog.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;

@@ -1,7 +1,7 @@
 package com.softwarelabs.InventorySystem.modules.catalog.common.crud;
 
 import com.softwarelabs.InventorySystem.modules.catalog.exception.NotFoundException;
-import com.softwarelabs.InventorySystem.modules.catalog.common.repo.GenericRepo;
+import com.softwarelabs.InventorySystem.modules.catalog.repo.GenericRepo;
 
 import java.util.List;
 

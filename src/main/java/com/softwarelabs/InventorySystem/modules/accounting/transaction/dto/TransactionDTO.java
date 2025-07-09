@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.softwarelabs.InventorySystem.modules.catalog.dto.ProductRequestDTO;
 import com.softwarelabs.InventorySystem.modules.accounting.transaction.enums.TransactionStatus;
 import com.softwarelabs.InventorySystem.modules.accounting.transaction.enums.TransactionType;
-import com.softwarelabs.InventorySystem.modules.user.dto.UserDTO;
+import com.softwarelabs.InventorySystem.modules.user.dto.UserRequestDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,7 +27,7 @@ public class TransactionDTO {
     private String description;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private UserDTO user;
+    private UserRequestDTO user;
     private ProductRequestDTO product;
     private SupplierDTO supplier;
 }

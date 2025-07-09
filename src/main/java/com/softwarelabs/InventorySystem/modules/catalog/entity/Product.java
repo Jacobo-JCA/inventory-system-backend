@@ -5,22 +5,23 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 @Builder
 @Entity
 @Table(name = "products")
 public class Product {
     @Id
+    @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProduct;
     @NotBlank(message = "Name is required")
@@ -35,19 +36,8 @@ public class Product {
     private Integer stockQuantity;
     private String description;
     private final LocalDateTime createdAt = LocalDateTime.now();
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "id_category", nullable = false)
     private Category category;
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "idProduct=" + idProduct +
-                ", name='" + name + '\'' +
-                ", code='" + code + '\'' +
-                ", stockQuantity=" + stockQuantity +
-                ", description='" + description + '\'' +
-                ", createdAt=" + createdAt +
-                '}';
-    }
 }

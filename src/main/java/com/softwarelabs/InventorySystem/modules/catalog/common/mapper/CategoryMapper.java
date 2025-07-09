@@ -1,17 +1,21 @@
 package com.softwarelabs.InventorySystem.modules.catalog.common.mapper;
 
+
+import com.softwarelabs.InventorySystem.modules.catalog.dto.CategoryRequestDTO;
+import com.softwarelabs.InventorySystem.modules.catalog.dto.CategoryResponse;
+import com.softwarelabs.InventorySystem.modules.catalog.entity.Category;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-public class GenericMapper {
-    @Qualifier("catalog")
+public class CategoryMapper {
+    @Qualifier("categoryMapper")
     private static final ModelMapper mapper = new ModelMapper();
 
-    public static <D, E> D convertToDto(E entity, Class<D> dtoClass) {
-        return mapper.map(entity, dtoClass);
+    public static CategoryResponse convertToDto(Category obj) {
+        return mapper.map(obj, CategoryResponse.class);
     }
 
-    public static <E, D> E convertToEntity(D dto, Class<E> entityClass) {
-        return mapper.map(dto, entityClass);
+    public static Category convertToEntity(CategoryRequestDTO dto) {
+        return mapper.map(dto, Category.class);
     }
 }
