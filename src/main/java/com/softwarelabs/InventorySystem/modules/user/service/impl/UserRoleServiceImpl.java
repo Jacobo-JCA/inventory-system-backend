@@ -1,6 +1,6 @@
 package com.softwarelabs.InventorySystem.modules.user.service.impl;
 
-import com.softwarelabs.InventorySystem.modules.user.dto.RoleAssignmentDTO;
+import com.softwarelabs.InventorySystem.modules.user.dto.RoleAssignment;
 import com.softwarelabs.InventorySystem.modules.user.entity.Role;
 import com.softwarelabs.InventorySystem.modules.user.entity.User;
 import com.softwarelabs.InventorySystem.modules.user.entity.UserRole;
@@ -43,33 +43,25 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Transactional
     @Override
-    public void assignRoles(RoleAssignmentDTO roleAssignmentDTO) throws Exception {
-        User user = userService.getUser(roleAssignmentDTO.userId());
-        Set<Long> existingRoleIds = userRoleRepo.findRoleIdsByUserId(user.getIdUser());
-        Set<Long> duplicateRoleIds = roleAssignmentDTO.roleIds().stream()
-                .filter(existingRoleIds::contains)
+    public void assignRoles(RoleAssignment roleAssignment) throws Exception {
+        User user = userService.getUser(roleAssignment.userId());
+        Set<Long> existingRoles = userRoleRepo.findRoleIdsByUserId(user.getIdUser());
+        Set<Long> duplicateRoles = roleAssignment.roleIds().stream()
+                .filter(existingRoles::contains)
                 .collect(Collectors.toSet());
-        if (!duplicateRoleIds.isEmpty()) {
-            String duplicateIds = duplicateRoleIds.stream()
+        if (!duplicateRoles.isEmpty()) {
+            String duplicate = duplicateRoles.stream()
                     .map(String::valueOf)
                     .collect(Collectors.joining(", "));
-            throw new RoleException("The following roles are already assigned: " + duplicateIds);
+            throw new RoleException("The following roles are already assigned: " + duplicate);
         }
-        List<Role> newRoles = roleAssignmentDTO.roleIds().stream()
-                .map(roleId -> {
-                    try {
-                        return roleService.getRoleById(roleId);
-                    } catch (Exception e) {
-                        throw new RoleException("ID Role Not Found: " + roleId + e.getMessage());
-                    }
-                })
-                .toList();
-        boolean hasAdminRole = newRoles.stream()
+        List<Role> rolesToAssign = roleService.getRolesById(roleAssignment.roleIds());
+        boolean hasAdminRole = rolesToAssign.stream()
                 .anyMatch(role -> "ROLE_ADMIN".equals(role.getRoleName()));
         if (hasAdminRole) {
             throw new RoleException("Cannot assign ADMIN role");
         }
-        newRoles.forEach(role -> {
+        rolesToAssign.forEach(role -> {
             UserRole userRole = new UserRole();
             user.addAuthority(userRole);
             role.addAuthority(userRole);

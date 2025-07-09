@@ -1,9 +1,8 @@
 package com.softwarelabs.InventorySystem.modules.user.controller;
 
-import com.softwarelabs.InventorySystem.modules.catalog.common.mapper.GenericMapper;
-import com.softwarelabs.InventorySystem.modules.user.dto.RoleAssignmentDTO;
-import com.softwarelabs.InventorySystem.modules.user.dto.RoleDTO;
-import com.softwarelabs.InventorySystem.modules.user.entity.Role;
+import com.softwarelabs.InventorySystem.modules.user.common.mapper.RoleMapper;
+import com.softwarelabs.InventorySystem.modules.user.dto.RoleAssignment;
+import com.softwarelabs.InventorySystem.modules.user.dto.RoleResponseDTO;
 import com.softwarelabs.InventorySystem.modules.user.service.RoleService;
 import com.softwarelabs.InventorySystem.modules.user.service.UserRoleService;
 import jakarta.validation.Valid;
@@ -24,16 +23,16 @@ public class RoleController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/assign")
-    public ResponseEntity<Void> assignRolesToUser(@Valid @RequestBody RoleAssignmentDTO roleAssignmentDTO) throws Exception {
-        userRoleService.assignRoles(roleAssignmentDTO);
+    public ResponseEntity<Void> assignRolesToUser(@Valid @RequestBody RoleAssignment roleAssignment) throws Exception {
+        userRoleService.assignRoles(roleAssignment);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/all")
-    public ResponseEntity<List<RoleDTO>> getAllRoles() throws Exception {
-       List<RoleDTO> roles = roleService.getAllRoles().stream()
-               .map(r -> GenericMapper.convertToDto(r, RoleDTO.class))
+    public ResponseEntity<List<RoleResponseDTO>> getAllRoles() throws Exception {
+       List<RoleResponseDTO> roles = roleService.getAllRoles().stream()
+               .map(RoleMapper::convertToDto)
                .toList();
        return new ResponseEntity<>(roles, HttpStatus.OK);
     }

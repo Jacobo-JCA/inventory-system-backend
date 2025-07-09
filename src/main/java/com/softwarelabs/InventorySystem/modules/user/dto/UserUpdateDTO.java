@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class UserUpdateDTO {
-    private Long idUser;
     @Size(min = 3, max = 20)
     @NotBlank(message = "Username is required")
     private String username;

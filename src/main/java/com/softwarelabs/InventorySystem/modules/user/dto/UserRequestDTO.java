@@ -11,8 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class UserDTO {
-    private Long idUser;
+public class UserRequestDTO {
     @Size(min = 3, max = 20)
     @NotBlank(message = "Username is required")
     private String username;

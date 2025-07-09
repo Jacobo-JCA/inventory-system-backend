@@ -1,7 +1,8 @@
 package com.softwarelabs.InventorySystem.modules.user.dto;
 
 
+
 import java.util.List;
 
-public record RoleAssignmentDTO(Long userId, List<Long> roleIds) {
+public record RoleAssignment(Long userId, List<Long> roleIds) {
 }

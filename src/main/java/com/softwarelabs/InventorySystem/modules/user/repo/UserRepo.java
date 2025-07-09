@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepo extends JpaRepository<User, Long> {
+public interface UserRepo extends GenericRepo<User, Long> {
     @Query("SELECT u FROM User u LEFT JOIN FETCH u.authorities a LEFT JOIN FETCH a.role WHERE u.email = :email")
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);

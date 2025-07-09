@@ -15,8 +15,8 @@ public class RoleServiceImpl implements RoleService {
     private final RoleRepo roleRepo;
 
     @Override
-    public Role getRoleById(Long roleId) throws Exception {
-        return roleRepo.findById(roleId).orElseThrow(() -> new NotFoundException("ID Role Not Found"));
+    public List<Role> getRolesById(List<Long> roleIds) throws Exception {
+        return roleRepo.findAllById(roleIds);
     }
 
     @Override

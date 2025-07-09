@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -42,17 +41,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByEmail(String email) throws Exception {
-        return repo.findByEmail(email).orElseThrow(() -> new NotFoundException("User not found"));
-    }
-
-    @Override
     public User update(Long id, User user) {
-        User existingUser  = repo.findById(id).orElseThrow(() -> new NotFoundException("User not Found"));
-        Optional.ofNullable(user.getUsername()).ifPresent(existingUser::setUsername);
-        Optional.ofNullable(user.getEmail()).ifPresent(existingUser::setEmail);
-        Optional.ofNullable(user.getPhoneNumber()).ifPresent(existingUser::setPhoneNumber);
-        return repo.save(existingUser);
+        user.setIdUser(id);
+        User userExist = repo.findById(id).orElseThrow(() -> new NotFoundException("ID Not Found"));
+        user.setPassword(userExist.getPassword());
+        return repo.save(user);
     }
 
     @Override

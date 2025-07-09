@@ -1,7 +1,8 @@
 package com.softwarelabs.InventorySystem.modules.user.controller;
 
-import com.softwarelabs.InventorySystem.modules.user.common.mapper.GenericMapper;
-import com.softwarelabs.InventorySystem.modules.user.dto.UserDTO;
+import com.softwarelabs.InventorySystem.modules.user.common.mapper.UserMapper;
+import com.softwarelabs.InventorySystem.modules.user.dto.UserRequestDTO;
+import com.softwarelabs.InventorySystem.modules.user.dto.UserResponseDTO;
 import com.softwarelabs.InventorySystem.modules.user.dto.UserUpdateDTO;
 import com.softwarelabs.InventorySystem.modules.user.entity.User;
 import com.softwarelabs.InventorySystem.modules.user.service.UserRoleService;
@@ -23,8 +24,8 @@ public class UserController {
     private final UserRoleService userRoleService;
 
     @PostMapping("/register")
-    public ResponseEntity<Long> registerUser(@RequestBody @Valid UserDTO userRegisterDTO) throws Exception {
-        User user = GenericMapper.convertToEntity(userRegisterDTO, User.class);
+    public ResponseEntity<Long> registerUser(@RequestBody @Valid UserRequestDTO userRegisterDTO) throws Exception {
+        User user = UserMapper.convertToEntity(userRegisterDTO);
         Long idUser = service.create(user);
         userRoleService.assignDefaultRole(idUser);
         return new ResponseEntity<>(idUser, HttpStatus.CREATED);
@@ -32,19 +33,18 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/all")
-    public ResponseEntity<List<UserDTO>> getAllUsers() throws Exception {
-        List<UserDTO> users = service.getAllUsers().stream()
-                .map(u -> GenericMapper.convertToDto(u, UserDTO.class))
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() throws Exception {
+        List<UserResponseDTO> users = service.getAllUsers().stream()
+                .map(UserMapper::convertToDto)
                 .toList();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/update/{id}")
-    public ResponseEntity<UserUpdateDTO> updateUser(@PathVariable Long id, @RequestBody UserUpdateDTO userUpdateDTO) throws Exception {
-        userUpdateDTO.setIdUser(id);
-        User user = service.update(id, GenericMapper.convertToEntity(userUpdateDTO, User.class));
-        return new ResponseEntity<>(GenericMapper.convertToDto(user, UserUpdateDTO.class), HttpStatus.ACCEPTED);
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserUpdateDTO userUpdateDTO) throws Exception {
+        User user = service.update(id, UserMapper.convertToUpdateEntity(userUpdateDTO));
+        return new ResponseEntity<>(UserMapper.convertToDto(user), HttpStatus.ACCEPTED);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
