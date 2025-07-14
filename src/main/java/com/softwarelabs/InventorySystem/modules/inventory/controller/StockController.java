@@ -21,7 +21,7 @@ public class StockController {
     private final StockItemService stockItemService;
 
     @PostMapping("/add")
-    public ResponseEntity<StockItemResponse> createCategory(@RequestBody @Valid StockItemRequestDTO stockItemRequestDTO) throws Exception {
+    public ResponseEntity<StockItemResponse> createStock(@RequestBody @Valid StockItemRequestDTO stockItemRequestDTO) throws Exception {
         StockItem stockItem = stockItemService.save(StockItemMapper.convertToEntity(stockItemRequestDTO));
         return new ResponseEntity<>(StockItemMapper.convertToDto(stockItem), HttpStatus.CREATED);
     }
