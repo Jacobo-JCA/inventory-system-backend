@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class MapperConfig {
+public class MapperInventoryConfig {
     @Bean("inventoryMapper")
     public ModelMapper inventoryMapper() {
         ModelMapper mapper = new ModelMapper();
