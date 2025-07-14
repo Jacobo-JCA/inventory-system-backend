@@ -19,9 +19,11 @@ public class ProductRequestDTO {
     @NotBlank(message = "Code is required")
     @Pattern(regexp = "^[A-Z0-9-]{5,20}$")
     private String code;
+    @Min(value = 1)
+    @Max(value = 9999)
+    @Positive(message = "Product price must be a positive value")
     @DecimalMin(value = "0.0", inclusive = false)
     private BigDecimal unitPrice;
-    private Integer stockQuantity;
     @Size(min = 3, max = 100)
     private String description;
 }

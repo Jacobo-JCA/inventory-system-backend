@@ -1,5 +1,6 @@
 package com.softwarelabs.InventorySystem.modules.catalog.entity;
 
+import com.softwarelabs.InventorySystem.modules.inventory.entity.StockItem;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -9,6 +10,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,20 +26,19 @@ public class Product {
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProduct;
-    @NotBlank(message = "Name is required")
+    @Column(name = "name")
     private String name;
-    @NotBlank(message = "Code is required")
+    @Column(name = "code")
     private String code;
-    @Min(value = 1)
-    @Max(value = 9999)
-    @Positive(message = "Product price must be a positive value")
+    @Column(name = "unit_price", precision = 12, scale = 2, nullable = false)
     private BigDecimal unitPrice;
-    @Min(value = 0, message = "Stock quantity cannot be lesser than zero")
-    private Integer stockQuantity;
+    @Column(name = "description")
     private String description;
     private final LocalDateTime createdAt = LocalDateTime.now();
     @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "id_category", nullable = false)
     private Category category;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StockItem> stockItems;
 }

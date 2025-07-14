@@ -1,12 +1,12 @@
-package com.softwarelabs.InventorySystem.modules.billing.common.crud;
+package com.softwarelabs.InventorySystem.modules.inventory.common.crud;
 
-import com.softwarelabs.InventorySystem.modules.billing.exception.NotFoundException;
-import com.softwarelabs.InventorySystem.modules.catalog.repo.GenericCatalogRepo;
+import com.softwarelabs.InventorySystem.modules.catalog.exception.NotFoundException;
+import com.softwarelabs.InventorySystem.modules.inventory.repo.GenericInventoryRepo;
 
 import java.util.List;
 
 public abstract class CRUDImpl<T, ID> implements CRUD<T, ID> {
-    protected abstract GenericCatalogRepo<T, ID> getRepo();
+    protected abstract GenericInventoryRepo<T, ID> getRepo();
 
     @Override
     public T save(T t) throws Exception {

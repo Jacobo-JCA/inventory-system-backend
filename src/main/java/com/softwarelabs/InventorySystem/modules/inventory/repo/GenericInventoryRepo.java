@@ -1,8 +1,8 @@
-package com.softwarelabs.InventorySystem.modules.catalog.repo;
+package com.softwarelabs.InventorySystem.modules.inventory.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
-public interface GenericRepo<T, ID> extends JpaRepository<T, ID> {
+public interface GenericInventoryRepo<T, ID> extends JpaRepository<T, ID> {
 }

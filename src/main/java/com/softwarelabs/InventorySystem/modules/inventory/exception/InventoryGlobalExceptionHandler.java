@@ -1,4 +1,4 @@
-package com.softwarelabs.InventorySystem.modules.catalog.exception;
+package com.softwarelabs.InventorySystem.modules.inventory.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +9,7 @@ import org.springframework.web.context.request.WebRequest;
 import java.time.LocalDateTime;
 
 @RestControllerAdvice
-public class CatalogGlobalExceptionHandler {
+public class InventoryGlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<CustomerErrorResponse> handleAllExceptions(Exception ex, WebRequest req) {
         CustomerErrorResponse response = CustomerErrorResponse.builder()

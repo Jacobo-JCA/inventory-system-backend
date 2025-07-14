@@ -4,7 +4,7 @@ import com.softwarelabs.InventorySystem.modules.catalog.entity.Category;
 import com.softwarelabs.InventorySystem.modules.catalog.repo.CategoryRepo;
 import com.softwarelabs.InventorySystem.modules.catalog.service.CategoryService;
 import com.softwarelabs.InventorySystem.modules.catalog.common.crud.CRUDImpl;
-import com.softwarelabs.InventorySystem.modules.catalog.repo.GenericRepo;
+import com.softwarelabs.InventorySystem.modules.catalog.repo.GenericCatalogRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class CategoryServiceImp extends CRUDImpl<Category, Long> implements Cate
     private final CategoryRepo categoryRepo;
 
     @Override
-    protected GenericRepo<Category, Long> getRepo() {
+    protected GenericCatalogRepo<Category, Long> getRepo() {
         return categoryRepo;
     }
 

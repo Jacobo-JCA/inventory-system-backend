@@ -20,7 +20,6 @@ public class Category {
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCategory;
-    @NotBlank(message = "Name is required")
     @Column(name = "name", unique = true)
     private String name;
     @ToString.Exclude

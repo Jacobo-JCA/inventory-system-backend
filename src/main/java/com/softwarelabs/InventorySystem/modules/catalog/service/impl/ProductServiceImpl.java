@@ -3,7 +3,7 @@ package com.softwarelabs.InventorySystem.modules.catalog.service.impl;
 import com.softwarelabs.InventorySystem.modules.catalog.entity.Category;
 import com.softwarelabs.InventorySystem.modules.catalog.repo.CategoryRepo;
 import com.softwarelabs.InventorySystem.modules.catalog.common.crud.CRUDImpl;
-import com.softwarelabs.InventorySystem.modules.catalog.repo.GenericRepo;
+import com.softwarelabs.InventorySystem.modules.catalog.repo.GenericCatalogRepo;
 import com.softwarelabs.InventorySystem.modules.catalog.exception.NotFoundException;
 import com.softwarelabs.InventorySystem.modules.catalog.entity.Product;
 import com.softwarelabs.InventorySystem.modules.catalog.repo.ProductRepo;
@@ -23,7 +23,7 @@ public class ProductServiceImpl extends CRUDImpl<Product, Long> implements Produ
     private final CategoryRepo categoryRepo;
 
     @Override
-    protected GenericRepo<Product, Long> getRepo() {
+    protected GenericCatalogRepo<Product, Long> getRepo() {
         return productRepo;
     }
 
