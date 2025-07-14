@@ -1,13 +1,10 @@
 package com.softwarelabs.InventorySystem.modules.inventory.common.mapper;
 
-import com.softwarelabs.InventorySystem.modules.catalog.dto.CategoryRequestDTO;
-import com.softwarelabs.InventorySystem.modules.catalog.dto.CategoryResponse;
-import com.softwarelabs.InventorySystem.modules.catalog.dto.ProductRequestDTO;
-import com.softwarelabs.InventorySystem.modules.catalog.dto.ProductResponse;
-import com.softwarelabs.InventorySystem.modules.catalog.entity.Category;
-import com.softwarelabs.InventorySystem.modules.catalog.entity.Product;
+import com.softwarelabs.InventorySystem.modules.inventory.dto.InventoryMovementRequestDTO;
+import com.softwarelabs.InventorySystem.modules.inventory.dto.InventoryMovementResponse;
 import com.softwarelabs.InventorySystem.modules.inventory.dto.StockItemRequestDTO;
 import com.softwarelabs.InventorySystem.modules.inventory.dto.StockItemResponse;
+import com.softwarelabs.InventorySystem.modules.inventory.entity.InventoryMovement;
 import com.softwarelabs.InventorySystem.modules.inventory.entity.StockItem;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
@@ -19,8 +16,10 @@ public class MapperConfig {
     @Bean("inventoryMapper")
     public ModelMapper inventoryMapper() {
         ModelMapper mapper = new ModelMapper();
-        TypeMap<CategoryRequestDTO, Category> type1 = mapper.createTypeMap(CategoryRequestDTO.class, Category.class);
-        TypeMap<Category, CategoryResponse> type2 = mapper.createTypeMap(Category.class, CategoryResponse.class);
+        TypeMap<InventoryMovementRequestDTO, InventoryMovement> type1 = mapper.createTypeMap(InventoryMovementRequestDTO.class,
+                InventoryMovement.class);
+        TypeMap<InventoryMovement, InventoryMovementResponse> type2 = mapper.createTypeMap(InventoryMovement.class,
+                InventoryMovementResponse.class);
         return mapper;
     }
 
