@@ -35,7 +35,6 @@ public class ProductServiceImpl extends CRUDImpl<Product, Long> implements Produ
                 .name(product.getName())
                 .code(product.getCode())
                 .unitPrice(product.getUnitPrice())
-                .stockQuantity(product.getStockQuantity())
                 .description(product.getDescription())
                 .category(category)
                 .build();
